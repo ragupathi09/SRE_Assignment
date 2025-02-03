@@ -8,7 +8,7 @@ def get_allowed_service_values():
 # tags value am not set here if tags are match then get resposponce will work
       if (tags_value in ALLOWED_VALUS):
       
-           url = "http://<your-private-endpoint>/allowed-services"
+           url = "http://<private-endpoint>/allowed-services"
           
           try:
               response = requests.get(url)
