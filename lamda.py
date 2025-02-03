@@ -4,7 +4,7 @@ import csv
 import io
 from datetime import datetime
 
-ALLOWED_SERVICES = ["Data", "Processing", "Web"]
+ALLOWED_VALUES = ["Data", "Processing", "Web"]
 SNS_TOPIC_ARN = "SNS TOPIC ARN"  
 S3_BUCKET = "BUCKET_NAME"  
 
@@ -46,11 +46,11 @@ def lambda_handler(event, context):
                     
                     # If the "Service" tag is missing or its value is not allowed,
                     # and if not in test mode, generate an SNS alert.
-                    if (tags_value is None) or (tags_value not in ALLOWED_SERVICES):
+                    if (tags_value is None) or (tags_value not in ALLOWED_VALUES):
                         message = (
                             f"Alert: In region {region}, Instance {instance.get('InstanceId')} is {state} "
                             f"without a valid 'Service' tag. Found: '{tags_value}'. "
-                            f"Allowed values: {', '.join(ALLOWED_SERVICES)}."
+                            f"Allowed values: {', '.join(ALLOWED_VALUES)}."
                         )
                         if not test_mode:
                             sns.publish(
