@@ -1,5 +1,4 @@
-AWS_ACCESS_KEY         = "xxxxxxxxxxxxxxxxxxxx"
-AWS_SECRET_KEY         = "xxxxxxxxxxxxxxxxxxxxx"
+
 SUB1_CIDR              = "10.0.1.0/24"
 SUB2_CIDR              = "10.0.2.0/24"
 SUB3_CIDR              = "10.0.3.0/24"
