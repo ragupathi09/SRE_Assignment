@@ -1,14 +1,4 @@
-variable "AWS_ACCESS_KEY" {
 
-  description = "AWS Access Key"
-  type        = string
-
-}
-
-variable "AWS_SECRET_KEY" {
-  description = "AWS Secret Access Key"
-  type        = string
-}
 variable "VPC_CIDR" {
   description = "CIDR block for the VPC"
   type        = string
