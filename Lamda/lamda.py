@@ -46,7 +46,7 @@ def lambda_handler(event, context):
                     
                     # If the "Service" tag is missing or its value is not allowed,
                     # and if not in test mode, generate an SNS alert.
-                    if (tags_value is None) or (tags_value not in ALLOWED_VALUES):
+                    if (tags_value is None) or (tags_value not in ALLOWED_VALUES) or (tags is None):
                         message = (
                             f"Alert: In region {region}, Instance {instance.get('InstanceId')} is {state} "
                             f"without a valid 'Service' tag. Found: '{tags_value}'. "
