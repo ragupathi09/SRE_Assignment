@@ -38,4 +38,61 @@ resource "aws_autoscaling_group" "app_asg" {
     propagate_at_launch = true
   }
 }
+resource "aws_autoscaling_policy" "scale_up" {
+  name                   = "scale_up_policy"
+  policy_type            = "SimpleScaling"
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.app_asg.name
+
+  metric_aggregation_type = "Average"
+  # estimated_instance_warmup = 300
+
+  scaling_adjustment = 1
+}
+
+resource "aws_autoscaling_policy" "scale_down" {
+  name                   = "scale_down_policy"
+ policy_type            = "SimpleScaling"
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.app_asg.name
+
+  metric_aggregation_type = "Average"
+  # estimated_instance_warmup = 300
+
+  scaling_adjustment = -1
+}
+
+resource "aws_cloudwatch_metric_alarm" "cpu_high" {
+  alarm_name          = "cpu_high"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = "300"
+  statistic           = "Average"
+  threshold           = "90"
+
+  alarm_actions = [aws_autoscaling_policy.scale_up.arn]
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.app_asg.name
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "cpu_low" {
+  alarm_name          = "cpu_low"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = "300"
+  statistic           = "Average"
+  threshold           = "50"
+
+  alarm_actions = [aws_autoscaling_policy.scale_down.arn]
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.app_asg.name
+  }
+}
 
